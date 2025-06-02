@@ -8,8 +8,8 @@ on:
       - '**.md'
       # - "**/.*/**"
       # - "**/.*"
-      - '**/latest'
-      - '**/CHANGELOG.md'
+      # - '**/latest'
+      # - '**/CHANGELOG.md'
       - './scripts/**'
       - './release.config.cjs'
   workflow_dispatch: {}
@@ -66,5 +66,5 @@ jobs:
           type: now
           github_token: ${{ secrets.GH_TOKEN }}
           from_branch: ${{ github.ref_name }}
-          target_branch: ci/automated-releases # REVERT TO DEVELOP
+          target_branch: develop
           message: 'chore: 🧽 sync develop with ${{ github.ref_name }} [skip ci]'
