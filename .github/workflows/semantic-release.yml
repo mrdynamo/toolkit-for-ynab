@@ -47,16 +47,11 @@ jobs:
       - name: Install Dependencies
         run: yarn install
 
-      # # Get the current branch from git
-      # - name: Get branch name
-      #   id: branch-name
-      #   uses: tj-actions/branch-names@v8
-
-      # Create Release for the Beta
+      # Create Release
       - name: Semantic Release
         run: npx semantic-release --debug
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # CURRENT_BRANCH: ${{ steps.branch-name.outputs.current_branch }}
 
       # Sync main back into develop so that develop is always up to date
@@ -64,7 +59,7 @@ jobs:
         uses: devmasx/merge-branch@master
         with:
           type: now
-          github_token: ${{ secrets.GH_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           from_branch: ${{ github.ref_name }}
           target_branch: develop
-          message: 'chore: 🧽 sync develop with ${{ github.ref_name }} [skip ci]'
+          message: 'chore(ci): sync develop with ${{ github.ref_name }} [skip ci]'
