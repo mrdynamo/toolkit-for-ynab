@@ -7,8 +7,6 @@ const config = {
     [
       '@semantic-release/commit-analyzer',
       {
-        // Modify default release rules to include types that are not breaking change, feat, or fix as a patch release
-        // Default rules: https://github.com/semantic-release/commit-analyzer/blob/master/lib/default-release-rules.js
         releaseRules: [
           {
             scope: 'no-release',

@@ -6,17 +6,10 @@ on:
       - 'main'
     paths-ignore:
       - '**.md'
-      # - "**/.*/**"
-      # - "**/.*"
-      # - '**/latest'
-      # - '**/CHANGELOG.md'
       - './scripts/**'
       - './release.config.cjs'
   workflow_dispatch: {}
 
-## Skip Husky checks as only pushes to main are via PR from develop
-## and checks are performed in the PR to merge, so no need to run
-## during the release process/commit.
 env:
   HUSKY: 0
 
@@ -30,31 +23,25 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      # Checkout the repo
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: false
 
-      # Setup Node.js
       - name: Setup Node.js from .nvmrc
         uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
 
-      # Install Dependencies
       - name: Install Dependencies
         run: yarn install
 
-      # Create Release
       - name: Semantic Release
         run: npx semantic-release --debug
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # CURRENT_BRANCH: ${{ steps.branch-name.outputs.current_branch }}
 
-      # Sync main back into develop so that develop is always up to date
       - name: Merge main branch -> develop
         uses: devmasx/merge-branch@master
         with:
